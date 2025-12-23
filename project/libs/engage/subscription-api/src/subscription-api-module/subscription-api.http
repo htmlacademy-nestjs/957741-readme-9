@@ -1,0 +1,45 @@
+# =============================================
+# Engage Service - Subscriptions API (port 3003)
+# =============================================
+
+@baseUrl = http://localhost:3003/api/subscriptions
+@followerId = 658170cbb954e9f5b905ccf4
+@followingId = 6581762309c030b503e30512
+
+###
+
+# Subscribe to a user
+POST {{baseUrl}}/{{followingId}}?followerId={{followerId}} HTTP/1.1
+
+###
+
+# Unsubscribe from a user
+DELETE {{baseUrl}}/{{followingId}}?followerId={{followerId}} HTTP/1.1
+
+###
+
+# Get list of users that current user follows
+GET {{baseUrl}}/{{followerId}}/following HTTP/1.1
+
+###
+
+# Get list of followers
+GET {{baseUrl}}/{{followingId}}/followers HTTP/1.1
+
+###
+
+# Get followers count
+GET {{baseUrl}}/{{followingId}}/followers/count HTTP/1.1
+
+###
+
+# Get following count
+GET {{baseUrl}}/{{followerId}}/following/count HTTP/1.1
+
+###
+
+# Check if subscribed
+GET {{baseUrl}}/check?followerId={{followerId}}&followingId={{followingId}} HTTP/1.1
+
+###
+

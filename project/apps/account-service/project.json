@@ -1,0 +1,45 @@
+{
+  "name": "account-service",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/account-service/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "webpack-cli build --node-env=production",
+        "cwd": "apps/account-service"
+      },
+      "configurations": {
+        "development": {
+          "command": "webpack-cli build --node-env=development"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "account-service:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "account-service:build:development"
+        },
+        "production": {
+          "buildTarget": "account-service:build:production"
+        }
+      }
+    },
+    "db:seed": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx ts-node src/seed.ts",
+        "cwd": "libs/account/blog-user"
+      }
+    }
+  }
+}

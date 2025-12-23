@@ -1,0 +1,134 @@
+# =============================================
+# Account Service API (port 3001)
+# =============================================
+# Seeded Users (created by running: nx run account-service:db:seed)
+# User 1: user@notfound.local / 123456 - ID: 658170cbb954e9f5b905ccf4
+# User 2: alice@example.com / qwerty - ID: 6581762309c030b503e30512
+# User 3: bob@example.com / password123 - ID: 6581762309c030b503e30513
+# =============================================
+
+@baseUrl = http://localhost:3001/api/auth
+
+###
+
+# Login with seeded user (user@notfound.local)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "password": "123456"
+}
+
+###
+
+# Get seeded user by ID (Keks Smith) - requires JWT
+GET {{baseUrl}}/user/658170cbb954e9f5b905ccf4 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Login with seeded user (alice@example.com)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "qwerty"
+}
+
+###
+
+# Get seeded user by ID (Alice Johnson)
+GET {{baseUrl}}/user/6581762309c030b503e30512 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Login with seeded user (bob@example.com)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "bob@example.com",
+  "password": "password123"
+}
+
+###
+
+# Get seeded user by ID (Bob Williams)
+GET {{baseUrl}}/user/6581762309c030b503e30513 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# =============================================
+# Registration Tests
+# =============================================
+
+# Register a new user
+POST {{baseUrl}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "newuser@example.com",
+  "dateBirth": "1990-05-15",
+  "firstname": "New",
+  "lastname": "User",
+  "password": "newpassword"
+}
+
+###
+
+# Test: Try to register user with existing email (should fail with 409 Conflict)
+POST {{baseUrl}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "dateBirth": "1990-05-15",
+  "firstname": "John",
+  "lastname": "Doe",
+  "password": "password123"
+}
+
+###
+
+# =============================================
+# Error Cases
+# =============================================
+
+# Test: Try to login with wrong password (should fail with 401 Unauthorized)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@notfound.local",
+  "password": "wrongpassword"
+}
+
+###
+
+# Test: Try to login with non-existing email (should fail with 404 Not Found)
+POST {{baseUrl}}/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "123456"
+}
+
+###
+
+# Test: Try to get non-existing user (should fail with 404 Not Found)
+GET {{baseUrl}}/user/000000000000000000000000 HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+
+# Check user token
+POST {{baseUrl}}/check HTTP/1.1
+Authorization: Bearer {{token}}
+
+###
+

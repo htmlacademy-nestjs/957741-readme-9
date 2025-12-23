@@ -1,0 +1,146 @@
+# =============================================
+# Content Service API (port 3002)
+# =============================================
+
+@baseUrl = http://localhost:3002/api/posts
+@userId = 658170cbb954e9f5b905ccf4
+
+###
+
+# Create a new post (TEXT type)
+POST {{baseUrl}}?userId={{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "TEXT",
+  "title": "My first blog post about coding",
+  "extraFields": {
+    "announcement": "This is a short preview of my post about coding that will appear in the list",
+    "text": "This is the full content of my blog post. It contains detailed information about coding practices and techniques that I want to share with my readers. The content must be at least 100 characters long."
+  },
+  "tags": ["coding", "javascript", "nodejs"]
+}
+
+###
+
+# Create a new post (VIDEO type)
+POST {{baseUrl}}?userId={{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "VIDEO",
+  "title": "Amazing JavaScript Tutorial Video",
+  "extraFields": {
+    "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  "tags": ["video", "tutorial"]
+}
+
+###
+
+# Create a new post (QUOTE type)
+POST {{baseUrl}}?userId={{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "QUOTE",
+  "extraFields": {
+    "quoteText": "The only way to do great work is to love what you do.",
+    "quoteAuthor": "Steve Jobs"
+  },
+  "tags": ["inspiration", "quotes"]
+}
+
+###
+
+# Create a new post (LINK type)
+POST {{baseUrl}}?userId={{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "LINK",
+  "extraFields": {
+    "linkUrl": "https://nestjs.com",
+    "linkDescription": "NestJS - A progressive Node.js framework"
+  },
+  "tags": ["nestjs", "framework"]
+}
+
+###
+
+# Get all published posts
+GET {{baseUrl}} HTTP/1.1
+
+###
+
+# Get posts with pagination
+GET {{baseUrl}}?limit=10&page=1 HTTP/1.1
+
+###
+
+# Get posts by type
+GET {{baseUrl}}?type=TEXT HTTP/1.1
+
+###
+
+# Get posts by tag
+GET {{baseUrl}}?tag=javascript HTTP/1.1
+
+###
+
+# Get post by ID (replace with actual ID)
+GET {{baseUrl}}/550e8400-e29b-41d4-a716-446655440000 HTTP/1.1
+
+###
+
+# Update post (replace with actual ID)
+PATCH {{baseUrl}}/550e8400-e29b-41d4-a716-446655440000?userId={{userId}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Updated blog post title here",
+  "tags": ["updated", "tags"]
+}
+
+###
+
+# Delete post (replace with actual ID)
+DELETE {{baseUrl}}/550e8400-e29b-41d4-a716-446655440000?userId={{userId}} HTTP/1.1
+
+###
+
+# Get user drafts
+GET {{baseUrl}}/drafts/{{userId}} HTTP/1.1
+
+###
+
+# Search posts by title
+GET {{baseUrl}}/search/coding HTTP/1.1
+
+###
+
+# Search posts with limit
+GET {{baseUrl}}/search/blog?limit=5 HTTP/1.1
+
+###
+
+# Create repost (replace with actual post ID)
+POST {{baseUrl}}/550e8400-e29b-41d4-a716-446655440000/repost?userId=6581762309c030b503e30512 HTTP/1.1
+
+###
+
+# Get feed posts
+POST {{baseUrl}}/feed HTTP/1.1
+Content-Type: application/json
+
+{
+  "userIds": ["658170cbb954e9f5b905ccf4", "6581762309c030b503e30512", "6581762309c030b503e30513"]
+}
+
+###
+
+# Get user posts count
+GET {{baseUrl}}/count/{{userId}} HTTP/1.1
+
+###
+
